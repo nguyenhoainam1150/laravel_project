@@ -25,4 +25,33 @@ class PostsController extends Controller
         $rs = $posts->save();
         return $rs ? response(["code" => 1, "data" => $posts]) : response(["code" => 0]);
     }
+
+    public function deletePosts(Request $req) {
+        $req = $req->all();
+
+        if (is_null($req['id'])) 
+            return response(["code" => 0, "message" => "Posts not found!!!"]);
+
+        $rs = Posts::find($req['id'])->delete();
+        
+        return $rs ? response(["code" => 1, "message" => "Delete posts successfully."]) : response(["code" => 0, "message" => "Delete posts failure."]);
+    }
+
+    public function editPosts(Request $req) {
+        $req = $req->all();
+
+        if (is_null($req['id'])) 
+            return response(["code" => 0, "message" => "Posts not found!!!"]);
+
+        $record = Posts::find($req['id']);
+
+        if (is_null($record)) {
+            return response(["code" => 0, "message" => "Posts not found!!!"]);
+        } else {
+            $record->title = $req['title'];
+            $record->content = $req['content'];
+
+            return $record->save() ? response(["code" => 1, "message" => "Update posts successfully."]) : response(["code" => 0, "message" => "Update posts failure."]);
+        }
+    }
 }

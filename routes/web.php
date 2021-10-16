@@ -46,4 +46,10 @@ Route::prefix('posts')->group(function () {
 
     //add new
     Route::post('/add', [PostsController::class, 'addPosts']);
+
+    //delete
+    Route::delete('/delete', [PostsController::class, 'deletePosts']);
+
+    //edit
+    Route::put('/edit', [PostsController::class, 'editPosts']);
 });
